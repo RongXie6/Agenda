@@ -1,4 +1,4 @@
-# AgendaX — Documentazione del Progetto
+# Agenda
 
 **Gestione di un'agenda condivisa di promemoria e appuntamenti**
 
