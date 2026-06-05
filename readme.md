@@ -1,4 +1,4 @@
-# AgendaX 
+# Agenda
 
 **Gestione di un'agenda condivisa di promemoria e appuntamenti**
 
@@ -6,7 +6,7 @@
 
 ## 1. Introduzione
 
-AgendaX è un'applicazione web per la gestione di un'agenda condivisa da più
+Agenda è un'applicazione web per la gestione di un'agenda condivisa da più
 persone. L'applicazione permette di registrare due tipi di voci:
 
 - **Promemoria**: riferiti a una sola persona, eventualmente *ricorrenti*
