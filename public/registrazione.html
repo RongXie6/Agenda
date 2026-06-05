@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Registrazione Agenda</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/registrazione.css">
+</head>
+<body>
+<div class="r-box">
+    <h2>Registrazione</h2>
+    <p class="subtitle">Crea il tuo account per iniziare</p>
+
+    <div class="row-2">
+        <div class="field-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" placeholder="Mario" autocomplete="given-name">
+            <div class="field-error" id="err-nome"></div>
+        </div>
+        <div class="field-group">
+            <label for="cognome">Cognome</label>
+            <input type="text" id="cognome" placeholder="Rossi" autocomplete="family-name">
+            <div class="field-error" id="err-cognome"></div>
+        </div>
+    </div>
+
+    <div class="field-group">
+        <label for="userName">Username <span style="color:#e74c3c">*</span></label>
+        <input type="text" id="userName" placeholder="mario_rossi" autocomplete="username">
+        <div class="field-error" id="err-username"></div>
+    </div>
+
+    <div class="field-group">
+        <label for="mail">Email <span style="color:#e74c3c">*</span></label>
+        <input type="email" id="mail" placeholder="mario@esempio.it" autocomplete="email">
+        <div class="field-error" id="err-mail"></div>
+    </div>
+
+    <div class="field-group">
+        <label for="telefono">Telefono</label>
+        <input type="tel" id="telefono" placeholder="+39 333 1234567" autocomplete="tel">
+        <div class="field-error" id="err-telefono"></div>
+    </div>
+
+    <div class="field-group">
+        <label for="password">Password <span style="color:#e74c3c">*</span></label>
+        <input type="password" id="password" placeholder="Almeno 8 caratteri" autocomplete="new-password">
+        <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+        <div class="strength-label" id="strength-label"></div>
+        <div class="field-error" id="err-password"></div>
+    </div>
+
+    <div class="field-group">
+        <label for="confermaPassword">Conferma Password <span style="color:#e74c3c">*</span></label>
+        <input type="password" id="confermaPassword" placeholder="Ripeti la password" autocomplete="new-password">
+        <div class="field-error" id="err-conferma"></div>
+    </div>
+
+    <button type="button" onclick="registra()" id="invia">Crea account</button>
+    <div id="message"></div>
+    <p class="login-link">Hai già un account? <a href="login.html">Accedi</a></p>
+</div>
+<script src="js/registrazione.js"></script>
+</body>
+</html>

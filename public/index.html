@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <div id="ciao"></div>
+
+    <div id="inserimento">
+        <div class="content">
+            <h3>Aggiungi Promemoria</h3>
+            <div id="promemorie">
+                <label>Descrizione: <input type="text" id="descrizioneProm" required></label><br>
+                <label>Data: <input type="date" id="dataInizioProm" required></label><br>
+                <label>Ora: <input type="time" id="oraProm"></label><br>
+                <label>Durata (minuti): <input type="number" id="durataProm"></label><br>
+                <label>
+                    Ricorrenza:
+                    <select id="ricorrenza" onchange="toggleDataFineRow()">
+                        <option value="nessuna">Nessuna</option>
+                        <option value="settimanale">Settimanale</option>
+                        <option value="mensile">Mensile</option>
+                        <option value="annuale">Annuale</option>
+                    </select>
+                </label><br>
+                <label id="dataFinePromRow" style="display:none">Fine ricorrenza (opzionale): <input type="date" id="dataFineProm"></label><br>
+                <button type="button" onclick="addPromemoria()">Aggiungi</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <h3>Aggiungi Appuntamento</h3>
+            <div id="appuntamenti">
+                <label>Descrizione: <input type="text" id="descrizioneApp" required></label><br>
+                <label>Data e Ora: <input type="datetime-local" id="dataInizioApp" required></label><br>
+                <label>Durata (minuti): <input type="number" id="durataApp"></label><br>
+
+                <div id="utenti">
+                    <label>Lista utenti</label>
+                    <span class="plus" onclick="openModal('utenti_Modal')">+</span>
+                </div>
+
+                <button type="button" onclick="addAppuntamento()">Aggiungi</button>
+            </div>
+        </div>
+    </div>
+
+    <h3 id="calendarHeader">
+        <button onclick="prevMonth()"><-</button>
+        <span id="monthYear"></span>
+        <button onclick="nextMonth()">-></button>
+    </h3>
+
+    <div class="weekdays">
+        <div>Dom</div><div>Lun</div><div>Mar</div>
+        <div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div>
+    </div>
+    <div id="calendar"></div>
+
+    <!-- Eventi del giorno -->
+    <div id="eventsModal" class="modal-layer hidden">
+        <div class="modal-box modal-box-lg">
+            <h3>Eventi del Giorno</h3>
+            <h4 id="modalDate"></h4>
+            <div id="nessuna"></div>
+            <div id="promemorieSection" style="display:none">
+                <h4>Promemorie</h4>
+                <div id="promemorieList"></div>
+            </div>
+            <div id="appuntamentiSection" style="display:none">
+                <h4>Appuntamenti</h4>
+                <div id="appuntamentiList"></div>
+            </div>
+            <button class="close-btn" type="button" onclick="closeModal('eventsModal')">Chiudi</button>
+        </div>
+    </div>
+
+    <!-- Inviti ad appuntamenti -->
+    <div id="invitiModal" class="modal-layer hidden">
+        <div class="modal-box modal-box-md">
+            <h3>I tuoi inviti</h3>
+            <div id="invitiList"></div>
+            <button class="close-btn" type="button" onclick="closeModal('invitiModal')">Chiudi</button>
+        </div>
+    </div>
+
+    <!-- Lista utenti -->
+    <div id="utenti_Modal" class="modal-layer hidden">
+        <div class="modal-box modal-box-md">
+            <h4>Lista utenti</h4>
+            <div id="list_utenti"></div>
+            <div class="delete-dialog-actions">
+                <button class="close-btn" type="button" onclick="closeModal('utenti_Modal')">Conferma</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dialog eliminazione -->
+    <div id="deleteDialog" class="modal-layer hidden">
+        <div class="modal-box modal-box-sm">
+            <h3>Elimina promemoria</h3>
+            <p>Vuoi cancellare solo questo promemoria o tutta la serie?</p>
+
+            <div class="delete-dialog-actions">
+                <button id="deleteSingleBtn" type="button" class="btn btn-warning">Solo questo promemoria</button>
+                <button id="deleteAllBtn" type="button" class="btn btn-danger">Tutta la serie</button>
+                <button id="deleteCancelBtn" type="button" class="btn btn-secondary" onclick="closeModal('deleteDialog')">Annulla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dialog modifica promemoria -->
+    <div id="editPromemoriaDialog" class="modal-layer hidden">
+        <div class="modal-box modal-box-md">
+            <h3 id="editPromTitle">Modifica Promemoria</h3>
+
+            <div id="editPromemoriaForm">
+                <label>Descrizione: <input type="text" id="descrizionePromEdit" required></label><br>
+                <label>Data: <input type="date" id="dataInizioPromEdit" required></label><br>
+                <label>Ora: <input type="time" id="oraPromEdit"></label><br>
+                <label>Durata (minuti): <input type="number" id="durataPromEdit" min="0"></label><br>
+                <label id="ricorrenzaPromEditRow">
+                    Ricorrenza:
+                    <select id="ricorrenzaPromEdit" onchange="toggleDataFineEditRow()">
+                        <option value="nessuna">Nessuna</option>
+                        <option value="settimanale">Settimanale</option>
+                        <option value="mensile">Mensile</option>
+                        <option value="annuale">Annuale</option>
+                    </select>
+                </label><br>
+                <label id="dataFinePromEditRow" style="display:none">Fine ricorrenza (opzionale): <input type="date" id="dataFinePromEdit"></label><br>
+            </div>
+
+            <div class="delete-dialog-actions">
+                <button id="saveEditPromBtn" type="button">Salva</button>
+                <button id="cancelEditPromBtn" type="button" class="btn btn-secondary">Annulla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dialog modifica -->
+    <div id="editDialog" class="modal-layer hidden">
+        <div class="modal-box modal-box-md">
+            <h3>Modifica Appuntamento</h3>
+
+            <div id="editAppuntamentoForm">
+                <label>Descrizione: <input type="text" id="descrizioneAppEdit" required></label><br>
+                <label>Data e Ora: <input type="datetime-local" id="dataInizioAppEdit" required></label><br>
+                <label>Durata (minuti): <input type="number" id="durataAppEdit"></label><br>
+
+                <div class="utenti-row">
+                    <label>Lista utenti</label>
+                    <span class="plus" onclick="openModal('utenti_Modal')">+</span>
+                </div>
+            </div>
+
+            <div class="delete-dialog-actions">
+                <button id="saveEditBtn" type="button">Salva</button>
+                <button id="cancelEditBtn" type="button" class="btn btn-secondary" onclick="closeModal('editDialog')">Annulla</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/globals.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/modal.js"></script>
+    <script src="./js/notifiche.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/promemoria.js"></script>
+    <script src="./js/appuntamento.js"></script>
+    <script src="./js/calendar.js"></script>
+    <script src="./js/ricerca.js"></script>
+    <script src="./js/inviti.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Login Agenda</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body>
+
+<div class="login-box">
+    <h2>Login</h2>
+    <p class="subtitle">Accedi al tuo account</p>
+
+    <div class="field-group">
+        <label>Email</label>
+        <input type="email" id="mail" placeholder="mario@esempio.it" onkeydown="if(event.key==='Enter') login()">
+    </div>
+
+    <div class="field-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="••••••••" onkeydown="if(event.key==='Enter') login()">
+    </div>
+
+    <div id="verifica-section">
+        <p id="verifica-titolo" class="verifica-titolo">Caricamento verifica...</p>
+        <div id="verifica-grid"></div>
+        <p id="verifica-msg" class="verifica-msg"></p>
+        <button type="button" id="verificaBtn" onclick="confronta()">Verifica immagini</button>
+    </div>
+
+    <button type="button" id="loginBtn" onclick="login()" disabled>Accedi</button>
+
+    <div id="message"></div>
+
+    <a href="registrazione.html">Nuovo utente? Registrati</a>
+</div>
+
+<script src="js/login.js"></script>
+
+</body>
+</html>

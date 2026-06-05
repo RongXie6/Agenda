@@ -1,0 +1,443 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f4f6;
+    color: #222;
+}
+
+#ciao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 3;
+}
+
+#ciao h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+#ciao button,
+.content button,
+.close-btn,
+.modal-box button,
+#calendarHeader button {
+    background: #e53935;
+    color: #fff;
+    border: 0;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#ciao button:hover,
+.content button:hover,
+.close-btn:hover,
+.modal-box button:hover,
+#calendarHeader button:hover {
+    opacity: 0.92;
+}
+
+#ciao button + button {
+    margin-left: 8px;
+}
+
+#inserimento {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 4px 15px rgba(229, 57, 53, 0.18);
+}
+
+.content h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+.content input,
+.content select,
+.modal-box input:not(.userCheckbox),
+.modal-box select {
+    width: 100%;
+    margin-top: 6px;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+#utenti {
+    display: flex;
+    align-items: center;
+    margin: 10px 0 14px;
+}
+
+.plus {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #e53935;
+    color: white;
+    cursor: pointer;
+    margin-left: 8px;
+    font-weight: bold;
+}
+
+#calendarHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin: 10px 0;
+}
+
+#monthYear {
+    min-width: 180px;
+    text-align: center;
+}
+
+.weekdays,
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    padding: 0 20px 20px;
+}
+
+.weekdays div {
+    background: #e53935;
+    color: white;
+    text-align: center;
+    padding: 12px 0;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.day {
+    min-height: 110px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(229, 57, 53, 0.18);
+    position: relative;
+    overflow-y: hidden;
+}
+
+.active-day {
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.active-day:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(229, 57, 53, 0.25);
+}
+
+.empty-day {
+    cursor: default;
+}
+
+.empty-day:hover {
+    transform: none;
+    box-shadow: 0 2px 10px rgba(229, 57, 53, 0.18);
+}
+
+.day-number {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.today {
+    border: 2px solid #e53935;
+}
+
+.eventA {
+    display: block;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: #fee2e2;
+    color: rgb(255, 165, 0);
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 6px;
+}
+
+.eventP {
+    display: block;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: #fee2e2;
+    color: #991b1b;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 6px;
+}
+
+/* Appuntamento da confermare (invito non ancora accettato) */
+.eventA.daConfermare {
+    background: #f3f4f6;
+    color: #9ca3af;
+    border: 1px dashed #c0392b;
+    font-weight: normal;
+}
+
+.event-stato {
+    font-size: 12px;
+    color: #c0392b;
+    font-weight: 600;
+}
+
+/* Badge sul pulsante Inviti quando ci sono inviti in attesa */
+#invitiBtn {
+    position: relative;
+}
+
+/* =========================
+   通用弹窗层：融合式
+   每个弹窗自己带遮罩
+   ========================= */
+
+.hidden {
+    display: none !important;
+}
+
+.modal-layer {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    z-index: 9000;
+}
+
+.modal-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* 弹窗尺寸 */
+.modal-box-sm {
+    max-width: 360px;
+}
+
+.modal-box-md {
+    max-width: 600px;
+}
+
+.modal-box-lg {
+    max-width: 700px;
+}
+
+.modal-box h3,
+.modal-box h4 {
+    margin-top: 0;
+}
+
+#promemorieList,
+#appuntamentiList {
+    margin-top: 10px;
+}
+
+.event-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    background: #fafafa;
+    word-break: break-word;
+}
+
+.event-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.event-orario,
+.event-partecipanti {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.del {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #e53935;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin: 0.2rem 0.3rem;
+}
+
+.edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin: 0.2rem 0.3rem;
+}
+
+.del:hover,
+.edit:hover {
+    opacity: 0.9;
+}
+
+#list_utenti {
+    margin: 12px 0;
+}
+
+#list_utenti input.userCheckbox {
+    margin-right: 8px;
+    transform: translateY(1px);
+}
+
+#list_utenti label {
+    display: inline-block;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+#nessuna p {
+    margin: 8px 0 0;
+    color: #666;
+}
+
+.close-btn {
+    margin-top: 12px;
+}
+
+/* 删除弹窗按钮 */
+.delete-dialog-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-warning {
+    background: #f59e0b;
+    color: white;
+}
+
+.btn-danger {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+/* 兼容旧 id，可继续用 */
+#eventsModal .modal-box,
+#utenti_Modal .modal-box,
+#deleteDialog .modal-box,
+#editDialog .modal-box {
+    width: 100%;
+}
+
+/* 移除旧的全局 overlay 和旧弹窗定位逻辑 */
+/* #modalOverlay 不再需要 */
+/* #eventsModal、#utenti_Modal、.edit-dialog、.delete-dialog 
+   不再单独写 fixed + transform，统一交给 .modal-layer */
+
+/* =========================
+   响应式
+   ========================= */
+@media (max-width: 768px) {
+    #ciao {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #calendarHeader {
+        gap: 10px;
+    }
+
+    .weekdays,
+    #calendar {
+        gap: 6px;
+        padding: 0 12px 12px;
+    }
+
+    .day {
+        min-height: 90px;
+        padding: 8px;
+    }
+
+    .day-number {
+        font-size: 14px;
+    }
+
+    .modal-layer {
+        padding: 12px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-box {
+        max-height: 85vh;
+        padding: 16px;
+        border-radius: 10px;
+    }
+
+    .modal-box-sm,
+    .modal-box-md,
+    .modal-box-lg {
+        max-width: 100%;
+    }
+}

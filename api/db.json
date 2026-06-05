@@ -1,0 +1,20 @@
+{
+    "animal": [
+        { "type": "Dog", "image": "c1.jpg" },
+        { "type": "Dog", "image": "c2.jpg" },
+        { "type": "Dog", "image": "c3.jpg" },
+        { "type": "Dog", "image": "c4.jpg" },
+        { "type": "Horse", "image": "ca1.jpg" },
+        { "type": "Horse", "image": "ca2.jpg" },
+        { "type": "Horse", "image": "ca3.jpg" },
+        { "type": "Horse", "image": "ca4.jpg" },
+        { "type": "Fish", "image": "f1.jpg" },
+        { "type": "Fish", "image": "f2.jpg" },
+        { "type": "Fish", "image": "f3.jpg" },
+        { "type": "Fish", "image": "f4.jpg" },
+        { "type": "Cat", "image": "g1.jpg" },
+        { "type": "Cat", "image": "g2.jpg" },
+        { "type": "Cat", "image": "g3.jpg" },
+        { "type": "Cat", "image": "g4.jpg" }
+    ]
+}
