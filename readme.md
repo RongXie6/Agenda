@@ -1,4 +1,4 @@
-# Agenda
+# AgendaX 
 
 **Gestione di un'agenda condivisa di promemoria e appuntamenti**
 
@@ -162,6 +162,11 @@ autenticazione verificano la presenza dell'utente in sessione (`$_SESSION`).
 |--------|----------|
 | GET    | Elenco delle persone registrate (per selezionare i partecipanti) |
 
+### animali.php
+| Metodo | Funzione |
+|--------|----------|
+| GET    | Restituisce 9 immagini casuali (con `type` e `image`) usate per la verifica in fase di login |
+
 ---
 
 ## 6. Scelte progettuali
@@ -250,5 +255,40 @@ nel file `notifiche.js` e non richiede alcun servizio esterno.
 La logica tiene conto anche delle **ricorrenze** (usa la stessa funzione
 `sameCalendarDay`) e delle **eccezioni** (occorrenze spostate o cancellate non
 generano notifiche errate).
+
+---
+
+## 8. Verifica con immagini in fase di login
+
+Per rendere l'accesso meno automatizzabile è stata aggiunta una semplice
+verifica a immagini (in stile *CAPTCHA*) che l'utente deve superare **prima**
+di poter effettuare il login. La logica si trova in `login.js`, mentre le
+immagini sono fornite dall'endpoint `animali.php` (sezione 5).
+
+**Funzionamento:**
+
+1. All'apertura della pagina (`window.onload`) la funzione `caricaVerifica()`
+   chiama `animali.php`, che legge l'elenco degli animali da `db.json`, lo
+   mescola (`shuffle`) e restituisce **9 immagini** casuali. Ogni immagine ha
+   un tipo (`type`, es. "gatto", "cane") e un nome file (`image`).
+2. Le 9 immagini vengono disposte in una griglia. Tra i tipi presenti ne viene
+   estratto **uno a caso** (`tipoCorrente`) e all'utente viene chiesto:
+   *"Seleziona tutte le immagini di tipo: …"*.
+3. L'utente seleziona/deseleziona le immagini con un clic (viene sovrapposta
+   l'icona `selected.png`).
+4. Premendo **"Verifica immagini"** la funzione `confronta()` controlla che:
+   - nessuna immagine selezionata sia di tipo diverso da quello richiesto, **e**
+   - siano state selezionate **tutte** le immagini di quel tipo presenti nella
+     griglia.
+
+   Solo se entrambe le condizioni sono soddisfatte la verifica è superata e il
+   pulsante **"Accedi"** viene abilitato; in caso contrario la selezione viene
+   azzerata e l'utente riprova.
+5. Il login (`login()`) resta bloccato finché la verifica non è superata.
+   Inoltre, se l'accesso fallisce (email o password errate), la verifica viene
+   **resettata** e vengono caricate nuove immagini, così deve essere ripetuta.
+6. **Fallback**: se la chiamata a `animali.php` non va a buon fine, la verifica
+   viene saltata ("Verifica non disponibile — procedi comunque") per non
+   impedire l'accesso a causa di un problema tecnico.
 
 ---
